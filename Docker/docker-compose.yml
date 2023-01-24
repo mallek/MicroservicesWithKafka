@@ -33,5 +33,5 @@ volumes:
 
 networks:
   default:
-    external:
-      name: localdockernetwork
+    external: true
+    name: localdockernetwork

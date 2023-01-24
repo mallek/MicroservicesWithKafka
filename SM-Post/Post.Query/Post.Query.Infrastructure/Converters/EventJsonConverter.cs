@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using CQRS.Core.Events;
 using Post.Common.Events;
 
@@ -13,7 +9,8 @@ namespace Post.Query.Infrastructure.Converters
     {
         public override bool CanConvert(Type typeToConvert)
         {
-            return typeof(BaseEvent).IsAssignableFrom(typeToConvert);
+            //return typeof(BaseEvent).IsAssignableFrom(typeToConvert);
+            return typeToConvert.IsAssignableFrom(typeof(BaseEvent));
         }
 
         public override BaseEvent? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
