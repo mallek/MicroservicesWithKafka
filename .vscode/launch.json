@@ -59,5 +59,13 @@
             "type": "coreclr",
             "request": "attach"
         }
-    ]
+    ],
+    "compounds": [
+        {
+          "name": "CommandApi/QueryApi",
+          "configurations": ["Post.Cmd.Api", "Post.Query.Api"],
+        //   "preLaunchTask": "${defaultBuildTask}",
+          "stopAll": true
+        }
+      ]
 }
