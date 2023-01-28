@@ -16,7 +16,7 @@ namespace Post.Cmd.Infrastructure.Repositories
             _eventStoreCollection = database.GetCollection<EventModel>(config.Value.Collection);
         }
 
-        public async Task<IEnumerable<EventModel>> FindByAggregateId(Guid aggregateId)
+        public async Task<List<EventModel>> FindByAggregateId(Guid aggregateId)
         {
             return await _eventStoreCollection.Find(x => x.AggregateIdentifier == aggregateId).ToListAsync().ConfigureAwait(false);
         }
