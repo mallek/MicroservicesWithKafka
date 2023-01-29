@@ -12,19 +12,26 @@ namespace Post.Query.Infrastructure.Dispatchers
         {
             if (_handlers.ContainsKey(typeof(TQuery)))
             {
-                throw new IndexOutOfRangeException($"Handler for {typeof(TQuery)} is already registered");
+                throw new IndexOutOfRangeException($"Handler for {typeof(TQuery).Name} is already registered");
             }
             _handlers.Add(typeof(TQuery), query => handler((TQuery)query));
         }
 
         public async Task<List<PostEntity>> SendAsync<TQuery>(BaseQuery query)
         {
-           if(_handlers.TryGetValue(query.GetType(), out Func<BaseQuery, Task<List<PostEntity>>> handler))
-           {
-               return await handler(query);
-           }
+            if (!_handlers.ContainsKey(query.GetType()))
+            {
+                throw new ArgumentNullException($"Handler for {query.GetType().Name} is not registered");
+            }
+            
+            return await _handlers[query.GetType()](query);
 
-           throw new ArgumentNullException($"Handler for {query.GetType()} is not registered");
+
+        //    if(_handlers.TryGetValue(query.GetType(), out Func<BaseQuery, Task<List<PostEntity>>>? handler))
+        //    {
+        //        return await handler(query);
+        //    }
+
         }
     }
 }
