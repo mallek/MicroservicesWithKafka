@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CQRS.Core.Exceptions;
 using CQRS.Core.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
@@ -12,19 +8,19 @@ namespace Post.Cmd.Api.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class EditCommentController : ControllerBase
+    public class DeletePostController : ControllerBase
     {
-        private readonly ILogger<EditCommentController> _logger;
+        private readonly ILogger<DeletePostController> _logger;
         private readonly ICommandDispatcher _commandDispatcher;
 
-        public EditCommentController(ILogger<EditCommentController> logger, ICommandDispatcher commandDispatcher)
+        public DeletePostController(ILogger<DeletePostController> logger, ICommandDispatcher commandDispatcher)
         {
             _logger = logger;
             _commandDispatcher = commandDispatcher;
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> EditCommentAsync(Guid id, [FromBody] EditCommentCommand command)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePostAsync(Guid id, [FromBody] DeletePostCommand command)
         {
             try
             {
@@ -35,12 +31,12 @@ namespace Post.Cmd.Api.Controllers
 
                 return StatusCode(StatusCodes.Status200OK, new BaseResponse
                 {
-                    Message = "Comment edited successfully",
+                    Message = "Delete post removed successfully",
                 });
             }
             catch(AggregateNotFoundException ex)
             {
-                _logger.LogWarning(ex, "cound not retrieve aggregate, client passed an incorrect post ID");
+                _logger.LogWarning(ex, "cound not retrieve aggregate, client passed an incorrect comment ID");
                 return StatusCode(StatusCodes.Status404NotFound, new BaseResponse
                 {
                     Message = ex.Message,
@@ -56,12 +52,13 @@ namespace Post.Cmd.Api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error while editing comment on a post");
+                _logger.LogError(ex, "Error while removing comment");
                 return StatusCode(StatusCodes.Status500InternalServerError, new BaseResponse
                 {
-                    Message = "Internal server error",
+                    Message = "Error while removing comment",
                 });
             }
         }
+        
     }
 }
