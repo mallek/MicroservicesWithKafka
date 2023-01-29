@@ -43,11 +43,11 @@ namespace Post.Query.Infrastructure.Repositories
             }
         }
 
-        public Task<CommentEntity?> GetByIdAsync(Guid commentId)
+        public async Task<CommentEntity?> GetByIdAsync(Guid commentId)
         {
             using (DatabaseContext context = _contextFactory.CreateDbContext())
             {
-                return context.Comments.FirstOrDefaultAsync(x => x.CommentId == commentId);
+                return await context.Comments.FirstOrDefaultAsync(x => x.CommentId == commentId);
             }
         }
 

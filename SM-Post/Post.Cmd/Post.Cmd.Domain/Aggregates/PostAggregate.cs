@@ -110,7 +110,7 @@ namespace Post.Cmd.Domain.Aggregates
         public void Apply(CommentAddedEvent @event)
         {
             _id = @event.Id;
-            _comments.Add(@event.CommentId, new Tuple<string, string>(@event.UserName, @event.Comment));
+            _comments.Add(@event.CommentId, new Tuple<string, string>(@event.Comment, @event.UserName));
         }
 
         //edit comment
