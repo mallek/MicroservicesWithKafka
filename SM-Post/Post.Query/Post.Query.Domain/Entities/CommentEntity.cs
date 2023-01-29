@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Post.Query.Domain.Entities
 {
-    [Table("Comment")]
+    [Table("Comment", Schema = "dbo")]
     public class CommentEntity
     {
         [Key]
